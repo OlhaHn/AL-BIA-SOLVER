@@ -1,0 +1,12 @@
+﻿генератор random sat
+https://toughsat.appspot.com/
+
+Обчислення формули critical
+https://www.wolframalpha.com/input/?i=1%2F(log_2(256%2F255))
+
+
+Proceedings of SAT Competition 2017: Solver and Benchmark Descriptions, page_36
+Generating the Uniform Random Benchmarks
+Marijn J. H. Heule
+https://helda.helsinki.fi/handle/10138/224324
+https://baldur.iti.kit.edu/sat-competition-2017/index.php?cat=downloads

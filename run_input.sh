@@ -1,5 +1,5 @@
 #!/bin/bash
-FILES=./input/jnh/*
+FILES=./input/test/rand_7_UNSAT/critical_88.4_var_clause_ratio89/*
 for f in $FILES
 do
   echo "$f"

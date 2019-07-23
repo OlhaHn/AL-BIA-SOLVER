@@ -37,7 +37,7 @@ int double_lookahead(SATclass& instance, SATclass& old_instance) {
     return 1;
 }
 
-double count_crh(SATclass& instance) {
+double count_crh(SATclass& old_instace, SATclass& instance) {
     double result = 0;
     for(auto clause_hash: instance.reducted_clauses) {
         if(instance.formula.find(clause_hash) != instance.formula.end()) {
@@ -124,8 +124,8 @@ double decision_heuristic(SATclass& instance, SATclass& true_instace, SATclass& 
     #elif DIFF_HEURISTIC == 3
     auto function_pointer = count_bsrh;
     #endif
-    double true_result = function_pointer(true_instace);
-    double false_result = function_pointer(false_instance);
+    double true_result = function_pointer(instance, true_instace);
+    double false_result = function_pointer(instance, false_instance);
     #if DIRECTION_HEURISTIC == 1
     last_decision_true_is_better = true_result > false_result;
     #endif
@@ -289,8 +289,11 @@ int main() {
         sat_instance.trigger = 0;
     #endif
 
+    auto start = std::clock();
     auto result = dpll(sat_instance);
-    std::cout << "Result: " << result << '\n';
+    auto duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+    std::cout << duration << ';';
+    //std::cout << "Result: " << result << " " << "duration " << duration  << '\n';
 
     return 0;
 }
