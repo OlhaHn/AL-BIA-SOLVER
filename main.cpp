@@ -157,6 +157,19 @@ bool get_direction_heuristic_val(SATclass& instance, int decision_variable) {
     #endif
 }
 
+void prepare_binary_clauses(SATclass& instance, SATclass& after_propagation, int variable, bool value) {
+    int literal = value ? -1*variable : variable;
+    auto& clauses = instance.binary_clauses[literal];
+
+    for(auto var: after_propagation.implicated_variables) {
+        auto next_literal = after_propagation.variables[var].value ? var : -1*var;
+        instance.formula[instance.number_of_all_clauses] = {literal, next_literal};
+        clauses.insert(std::make_pair(next_literal, instance.number_of_all_clauses));
+        instance.binary_clauses[next_literal].insert(std::make_pair(literal, instance.number_of_all_clauses));
+        instance.number_of_all_clauses += 1;
+    }
+}
+
 int look_ahead(SATclass& instance, int depth) {
     #if PRESELECT_HEURISTIC == 0
     auto preselect = instance.preselect_propz();
@@ -181,7 +194,13 @@ int look_ahead(SATclass& instance, int depth) {
             auto result_of_false_instance = instance;
 
             bool true_propagation = result_of_true_instance.propagation(i, 1);
+            #if LOCAL_LEARNING == 1
+                prepare_binary_clauses(instance, result_of_true_instance, i, true);
+            #endif
             bool false_propagation = result_of_false_instance.propagation(i, 0);
+            #if LOCAL_LEARNING == 1
+                prepare_binary_clauses(instance, result_of_false_instance, i, false);
+            #endif
             if(!true_propagation && !false_propagation) {
                 return 0;
             } else if(!true_propagation) {
@@ -292,8 +311,8 @@ int main() {
     auto start = std::clock();
     auto result = dpll(sat_instance);
     auto duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-    std::cout << duration << ';';
-    //std::cout << "Result: " << result << " " << "duration " << duration  << '\n';
+    //std::cout << duration << ';';
+    std::cout << "Result: " << result << " " << "duration " << duration  << '\n';
 
     return 0;
 }

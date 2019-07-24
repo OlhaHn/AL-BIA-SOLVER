@@ -62,3 +62,14 @@
 */
 
 #endif
+
+#ifndef LOCAL_LEARNING
+#define LOCAL_LEARNING 1
+
+/*
+    possible values:
+        0 don't use local learning
+        1 use local learning
+*/
+
+#endif
