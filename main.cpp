@@ -311,8 +311,8 @@ int main() {
     auto start = std::clock();
     auto result = dpll(sat_instance);
     auto duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-    //std::cout << duration << ';';
-    std::cout << "Result: " << result << " " << "duration " << duration  << '\n';
+    std::cout << duration << ';';
+    //std::cout << "Result: " << result << " " << "duration " << duration  << '\n';
 
     return 0;
 }
